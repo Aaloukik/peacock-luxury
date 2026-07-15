@@ -3,7 +3,12 @@ import Link from "next/link";
 export default function Header() {
   return (
     <>
-      <header className="fixed top-0 left-0 z-[200] w-full">
+      <header className="fixed top-0 left-0 w-full z-50
+bg-black/40
+backdrop-blur-xl
+border-b border-white/10
+supports-[backdrop-filter]:bg-black/30
+transition-all duration-300">
 
   <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-6">
 

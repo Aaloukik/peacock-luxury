@@ -1,59 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
+import HeroSlider from "@/components/HeroSlider";
 
 export default function Home() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const [showLogo, setShowLogo] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-
-    if (!video) return;
-
-    video.pause();
-
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-
-      // HERO SCROLL AREA ONLY
-      const heroHeight = window.innerHeight * 8;
-
-      const scrollFraction = Math.min(
-        scrollTop / heroHeight,
-        1
-      );
-
-      // VIDEO CONTROL
-      const targetTime =
-        video.duration * scrollFraction;
-
-      if (!isNaN(targetTime)) {
-        video.currentTime = targetTime;
-      }
-
-      // LOGO APPEAR
-      if (scrollFraction >= 0.92) {
-        setShowLogo(true);
-      } else {
-        setShowLogo(false);
-      }
-    };
-
-    window.addEventListener(
-      "scroll",
-      handleScroll
-    );
-
-    return () => {
-      window.removeEventListener(
-        "scroll",
-        handleScroll
-      );
-    };
-  }, []);
 
   return (
     <main className="bg-black text-white">
@@ -61,102 +11,10 @@ export default function Home() {
       {/* FLOATING NAVBAR */}
 
     <Header />
+    <div className="h-24"></div>
 
-      {/* HERO SECTION */}
-
-      <div className="relative h-[1000vh]">
-
-        <section className="sticky top-0 h-screen overflow-hidden">
-
-          {/* VIDEO */}
-
-          <video
-            ref={videoRef}
-            muted
-            playsInline
-            preload="auto"
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${
-              showLogo
-                ? "opacity-0 scale-110"
-                : "opacity-100"
-            }`}
-          >
-            <source
-              src="/videos/hero-video.mp4"
-              type="video/mp4"
-            />
-          </video>
-
-          {/* OVERLAY */}
-
-          <div
-            className={`absolute inset-0 transition-all duration-1000 ${
-              showLogo
-                ? "bg-black"
-                : "bg-black/30"
-            }`}
-          />
-
-          {/* LOGO SECTION */}
-
-          <div className="relative z-50 flex h-full items-center justify-center px-6">
-
-            <div
-              className={`text-center transition-all duration-[2200ms] ${
-                showLogo
-                  ? "opacity-100 translate-y-0 scale-100"
-                  : "opacity-0 translate-y-10 scale-95"
-              }`}
-            >
-
-              {/* LOGO */}
-
-              <img
-                src="/logo.png"
-                alt="Peacock"
-                className="mx-auto w-[240px] md:w-[620px]"
-              />
-
-              {/* SUBTITLE */}
-
-              <p className="mt-8 text-[10px] md:text-lg uppercase tracking-[0.8em] text-neutral-200">
-                Platinum Club Plywood
-              </p>
-
-              {/* DESCRIPTION */}
-
-              <p className="mx-auto mt-8 max-w-2xl text-sm leading-8 text-neutral-300 md:text-lg">
-                Crafted for modern luxury interiors.
-                Precision engineered plywood built
-                for timeless architectural elegance.
-              </p>
-
-              {/* BUTTON */}
-
-              <button className="mt-10 border border-white px-10 py-4 text-xs uppercase tracking-[0.4em] text-white transition-all duration-500 hover:bg-white hover:text-black">
-                Explore Collection
-              </button>
-            </div>
-          </div>
-
-          {/* SCROLL INDICATOR */}
-
-          {!showLogo && (
-            <div className="absolute bottom-10 left-1/2 z-50 -translate-x-1/2">
-
-              <div className="flex flex-col items-center">
-
-                <p className="animate-pulse text-[10px] tracking-[0.5em] text-white/80">
-                  SCROLL
-                </p>
-
-                <div className="mt-3 h-14 w-[1px] bg-white/40"></div>
-
-              </div>
-            </div>
-          )}
-        </section>
-      </div>
+    <HeroSlider />
+    
 
       {/* PRODUCT SECTION */}
 
